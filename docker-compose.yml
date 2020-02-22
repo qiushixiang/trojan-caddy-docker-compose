@@ -2,9 +2,11 @@ version: '3'
 
 services:
   trojan:
-      build: ./trojan
+          #      build: ./trojan
+      image: trojangfw/trojan
       ports:
         - "443:443"
+      command: ["/bin/sh", "/wait_for_caddy.sh", "trojan", "config.json"]
       volumes:
         - ./trojan/config:/config
         - ./ssl:/ssl
