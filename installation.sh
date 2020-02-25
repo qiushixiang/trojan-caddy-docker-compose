@@ -41,17 +41,7 @@ elif cat /proc/version | grep -Eqi "centos|red hat|redhat"; then
 fi
 
 function install_trojan(){
-$systemPackage -y install curl  >/dev/null 2>&1
-$systemPackage -y install python-pip
 
-curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh
-systemctl start docker
-systemctl enable docker
-usermod -aG docker $USER
-
-pip install docker-compose
-
-docker-compose down
 
 Port80=`netstat -tlpn | awk -F '[: ]+' '$1=="tcp"{print $5}' | grep -w 80`
 Port443=`netstat -tlpn | awk -F '[: ]+' '$1=="tcp"{print $5}' | grep -w 443`
@@ -106,11 +96,29 @@ green "======================="
 read your_domain
 real_addr=`ping ${your_domain} -c 1 | sed '1{s/[^(]*(//;s/).*//;q}'`
 local_addr=`curl ipv4.icanhazip.com`
+
+green "======================="
+blue "请输入trojan服务端的密码"
+green "======================="
+read trojan_passwd
+
 # if [ $real_addr == $local_addr ] ; then
 	# green "=========================================="
 	# green "       域名解析正常，开始安装trojan"
 	# green "=========================================="
 	# sleep 1s
+	
+$systemPackage -y install curl  >/dev/null 2>&1
+$systemPackage -y install python-pip
+
+curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh
+systemctl start docker
+systemctl enable docker
+usermod -aG docker $USER
+
+pip install docker-compose
+
+docker-compose down
 
 cat > ./caddy/Caddyfile <<-EOF
 ${your_domain}:80 {
@@ -126,10 +134,7 @@ ${your_domain}:443 {
 }
 EOF
 
-green "======================="
-blue "请输入trojan服务端的密码"
-green "======================="
-read trojan_passwd
+
 	rm -rf ./trojan/config/config.json
 	cat > ./trojan/config/config.json <<-EOF
 {
@@ -181,7 +186,8 @@ EOF
 	if [ $? = 0 ]; then
 	green "======================================================================"
 	green "Trojan已安装完成，"
-	blue "http://${your_domain}/$trojan_path/trojan-cli.zip"
+	blue "域名:${your_domain}"
+	blue "密码: ${trojan_passwd}  "
 	green "2、将下载的压缩包解压，打开文件夹，打开start.bat即打开并运行Trojan客户端"
 	green "3、打开stop.bat即关闭Trojan客户端"
 	green "4、Trojan客户端需要搭配浏览器插件使用，例如switchyomega等"
