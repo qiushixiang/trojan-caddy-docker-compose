@@ -6,9 +6,12 @@ Trojan server and Caddy integration with Docker compose。
 
 Trojan server listens port 443. For https requests from normal sources, Trojan server will forward them to Caddy server for processing and return to the Web page while requests from Trojan client will be proxied by Trojan server which like V2ray+Websocket+TLS avoid GFW detection by disguising requests.
 
-How to deploy：https://muguang.me/it/2757.html
+## quick start 
+```
+wget --no-check-certificate -O installation.sh https://raw.githubusercontent.com/Robot-Chen/trojan-caddy-docker-compose/master/installation.sh  && chmod +x installation.sh && sudo ./installation.sh
+```
 
-## Usage
+## or you want to deploy manually
 
 Git clone this repo then change directory to this project.
 
