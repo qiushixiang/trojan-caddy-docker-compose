@@ -2,7 +2,6 @@ version: '3'
 
 services:
   trojan:
-          #      build: ./trojan
       image: trojangfw/trojan
       ports:
         - "443:443"
@@ -11,8 +10,7 @@ services:
         - ./trojan/config:/config
         - ./ssl:/ssl
         - ./trojan/wait_for_caddy.sh:/wait_for_caddy.sh
-      links:
-        - caddy:__DOCKER_CADDY__
+      restart: always
       depends_on: 
         - caddy
 
@@ -24,3 +22,4 @@ services:
         - ./wwwroot:/usr/src
         - ./caddy/Caddyfile:/etc/Caddyfile
         - ./ssl:/root/.caddy/acme/acme-v02.api.letsencrypt.org/sites
+      restart: always
