@@ -111,10 +111,9 @@ read trojan_passwd
 $systemPackage -y install curl  >/dev/null 2>&1
 
 
-install_docker()
+install_docker
 
-install_docker_compose()
-
+install_docker_compose
 
 docker-compose down
 
