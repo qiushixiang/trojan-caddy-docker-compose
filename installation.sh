@@ -218,6 +218,8 @@ function install_docker_compose(){
 
 if [ $? = 0 ]; then
 
+	$systemPackage -y install  python-pip
+	pip install --upgrade pip
 	pip install docker-compose
 	
 else
