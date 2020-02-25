@@ -91,29 +91,34 @@ if [ "$CHECK" == "SELINUX=permissive" ]; then
 fi
 
 green "======================="
+blue "请输入trojan服务端的密码"
+green "======================="
+read trojan_passwd
+
+green "======================="
 blue "请输入绑定到本VPS的域名"
 green "======================="
 read your_domain
 real_addr=`ping ${your_domain} -c 1 | sed '1{s/[^(]*(//;s/).*//;q}'`
 local_addr=`curl ipv4.icanhazip.com`
 
-green "======================="
-blue "请输入trojan服务端的密码"
-green "======================="
-read trojan_passwd
 
-# if [ $real_addr == $local_addr ] ; then
-	# green "=========================================="
-	# green "       域名解析正常，开始安装trojan"
-	# green "=========================================="
-	# sleep 1s
+if [ $real_addr == $local_addr ] ; then
+	green "=========================================="
+	green "       域名解析正常，开始安装trojan"
+	green "=========================================="
+	sleep 1s
 	
-$systemPackage -y install curl  >/dev/null 2>&1
+$systemPackage -y install curl git  >/dev/null 2>&1
 
 
 install_docker
 
 install_docker_compose
+
+git clone https://github.com/Robot-Chen/trojan-caddy-docker-compose.git
+
+cd trojan-caddy-docker-compose
 
 docker-compose down
 
@@ -196,12 +201,12 @@ EOF
 	red "==================================="
 	fi
 	
-# else
-	# red "================================"
-	# red "域名解析地址与本VPS IP地址不一致"
-	# red "本次安装失败，请确保域名解析正常"
-	# red "================================"
-# fi
+else
+	red "================================"
+	red "域名解析地址与本VPS IP地址不一致"
+	red "本次安装失败，请确保域名解析正常"
+	red "================================"
+fi
 }
 
 
@@ -222,11 +227,11 @@ function install_docker_compose(){
 
 	if [ $? = 1 ]; then
 	
-    	curl -L "https://github.com/docker/compose/releases/download/1.25.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+    curl -L "https://github.com/docker/compose/releases/download/1.25.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 	chmod +x /usr/local/bin/docker-compose
 	ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
 
-	fi
+fi
 }
 
 function remove_trojan(){
