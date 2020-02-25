@@ -109,14 +109,12 @@ read trojan_passwd
 	# sleep 1s
 	
 $systemPackage -y install curl  >/dev/null 2>&1
-$systemPackage -y install python-pip
 
-curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh
-systemctl start docker
-systemctl enable docker
-usermod -aG docker $USER
 
-pip install docker-compose
+install_docker()
+
+install_docker_compose()
+
 
 docker-compose down
 
@@ -208,6 +206,29 @@ EOF
 }
 
 
+function install_docker(){
+
+curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh
+systemctl start docker
+systemctl enable docker
+usermod -aG docker $USER
+
+}
+
+function install_docker_compose(){
+
+if [ $? = 0 ]; then
+
+	pip install docker-compose
+	
+else
+
+    curl -L "https://github.com/docker/compose/releases/download/1.25.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+	chmod +x /usr/local/bin/docker-compose
+	ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+
+fi
+}
 
 function remove_trojan(){
     red "================================"
