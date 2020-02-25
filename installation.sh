@@ -216,19 +216,17 @@ usermod -aG docker $USER
 
 function install_docker_compose(){
 
-if [ $? = 0 ]; then
-
 	$systemPackage -y install  python-pip
 	pip install --upgrade pip
 	pip install docker-compose
-	
-else
 
-    curl -L "https://github.com/docker/compose/releases/download/1.25.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+	if [ $? = 1 ]; then
+	
+    	curl -L "https://github.com/docker/compose/releases/download/1.25.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 	chmod +x /usr/local/bin/docker-compose
 	ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
 
-fi
+	fi
 }
 
 function remove_trojan(){
