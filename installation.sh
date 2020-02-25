@@ -178,6 +178,7 @@ EOF
 	
 
 	docker-compose up -d
+	if [ $? = 0 ]; then
 	green "======================================================================"
 	green "Trojan已安装完成，"
 	blue "http://${your_domain}/$trojan_path/trojan-cli.zip"
@@ -186,19 +187,18 @@ EOF
 	green "4、Trojan客户端需要搭配浏览器插件使用，例如switchyomega等"
 	green "======================================================================"
 	else
-        red "==================================="
-	green "不要担心，你可以手动修复证书申请"
+    red "==================================="
 	green "1. 重启VPS"
-	green "2. 重新执行脚本，使用修复证书功能"
+	green "2. 重新执行脚本"
 	red "==================================="
 	fi
 	
-else
-	red "================================"
-	red "域名解析地址与本VPS IP地址不一致"
-	red "本次安装失败，请确保域名解析正常"
-	red "================================"
-fi
+# else
+	# red "================================"
+	# red "域名解析地址与本VPS IP地址不一致"
+	# red "本次安装失败，请确保域名解析正常"
+	# red "================================"
+# fi
 }
 
 
@@ -206,15 +206,8 @@ fi
 function remove_trojan(){
     red "================================"
     red "即将卸载trojan"
-    red "同时卸载安装的nginx"
     red "================================"
 
-    rm -f ${systempwd}trojan.service
-    if [ "$release" == "centos" ]; then
-        yum remove -y nginx
-    else
-        apt autoremove -y nginx
-    fi
 	docker-compose down
     green "=============="
     green "trojan删除完毕"
