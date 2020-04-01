@@ -1,8 +1,8 @@
-http://YOUR_DOMAIN.com {
+http://YOUR_DOMAIN_NAME {
     redir https://YOUR_DOMAIN.com{url}
 }
 
-YOUR_DOMAIN.com:443 {
+YOUR_DOMAIN_NAME:443 {
     log /usr/src/caddy.log
 }
 

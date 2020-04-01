@@ -5,6 +5,7 @@
 Trojan 服务端监听 443 端口，对正常来路的 https 请求，Trojan 服务端会转发给 Caddy 服务器处理，返回 Web 页面；而通过 Trojan 客户端来的请求，则由 Trojan 服务端进行代理，与 V2ray + Websocket + TLS 的原理一样，通过伪装流量，避免被 GFW 提取特征与检测。
 
 部署教程：https://muguang.me/it/2757.html
+细节已经修改，还为同步至中文版本，详情请见英文版本。
 
 ## 使用
 
