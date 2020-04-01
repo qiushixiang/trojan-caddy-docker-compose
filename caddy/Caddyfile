@@ -1,5 +1,5 @@
 http://YOUR_DOMAIN_NAME {
-    redir https://YOUR_DOMAIN.com{url}
+    redir https://YOUR_DOMAIN_NAME{url}
 }
 
 YOUR_DOMAIN_NAME:443 {
