@@ -8,7 +8,7 @@ Trojan server listens port 443. For https requests from normal sources, Trojan s
 
 ## quick start 
 ```
-wget --no-check-certificate -O installation.sh https://github.com/qiushixiang/trojan-caddy-docker-compose/blob/master/installation.sh  && chmod +x installation.sh && sudo ./installation.sh
+wget --no-check-certificate -O installation.sh https://raw.githubusercontent.com/qiushixiang/trojan-caddy-docker-compose/master/installation.sh  && chmod +x installation.sh && sudo ./installation.sh
 ```
 
 ## or you want to deploy manually
